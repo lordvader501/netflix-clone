@@ -27,7 +27,7 @@ const Container = styled.div`
       height: 5rem;
     }
     button {
-      padding: 0. Srem Irem;
+      padding: 0.5rem 1rem;
       background-color: #e50914;
       border: none;
       cursor: pointer;

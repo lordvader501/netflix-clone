@@ -44,6 +44,10 @@ body::-webkit-scrollbar {
   align-items: center;
 }
 
+.j-end {
+  justify-content: flex-end;
+}
+
 .button {
   background-color: #c11119;
     outline: none;

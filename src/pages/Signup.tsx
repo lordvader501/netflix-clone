@@ -4,6 +4,9 @@ import Header from '../components/Header';
 import styled from 'styled-components';
 import tvImg from '../assets/tv.png';
 import tvVid from '../assets/video-tv-in-0819.m4v';
+import mobImg from '../assets/mobile-0819.jpg';
+import mobdownImg from '../assets/boxshot.png';
+import downGif from '../assets/download-icon.gif';
 
 const Signup = () => {
   const [changeLogin, setChangeLogin] = useState(true);
@@ -46,7 +49,7 @@ const Signup = () => {
             </Button>
           </div>
         </div>
-        <div className='flex row tv-container j-center'>
+        <div className='flex row div-container j-center'>
           <div className='flex j-center'>
             <div className='text tv-text j-center a-center flex column'>
               <h1>Enjoy on your TV</h1>
@@ -57,6 +60,25 @@ const Signup = () => {
               <div className='video'>
                 <video src={tvVid} autoPlay playsInline loop muted></video>
               </div>
+            </div>
+          </div>
+        </div>
+        <div className='flex row div-container j-center'>
+          <div className='flex j-center'>
+            <div className='mobile-container flex j-center a-center'>
+              <img src={mobImg} alt="mobile" />
+              <div className='mobile-box flex row a-center'>
+                <img src={mobdownImg} alt="boximg" />
+                <div className='flex column down-text'>
+                  <h4>Stranger Things</h4>
+                  <p>Downloading...</p>
+                </div>
+                <div className="downloading-gif" style={{background: `url(${downGif})`, backgroundSize: 'contain', backgroundPosition: 'center'}}></div>
+              </div>
+            </div>
+            <div className='text tv-text j-center a-center flex column'>
+              <h1>Download your shows to watch offline</h1>
+              <h4>Save your favourites easily and always have something to watch.</h4>
             </div>
           </div>
         </div>
@@ -77,13 +99,51 @@ const Container = styled.div`
     width: 100vw;
     display: grid;
     grid-template-rows: 15vh 85vh;
-    .tv-container {
+    .div-container {
       width: 100vw;
       position: relative;
       border-top: 0.5rem solid #232323;
       padding-bottom: 80px;
+      .mobile-container {
+        position: relative;
+        img {
+          height: 65%;
+        }
+        .mobile-box {
+          position: absolute;
+          top: 60%;
+          border-radius: 0.8rem;
+          border: 0.1rem solid #494949;
+          z-index: 1;
+          background-color: black;
+          padding: 0.5rem;
+          justify-content: space-between;
+          img {
+            width: 20%;
+          }
+          .down-text {
+            justify-content: start;
+            width: 55%;
+            padding-bottom: 5px;
+            h4 {
+              padding-left: 5px;
+              font-weight: 400;
+              font-size: 1.2rem;
+            }
+            p {
+              color: #0071eb;
+              padding-left: 5px;
+              font-size: 0.85rem;
+            }
+          }
+          .downloading-gif {
+            width: 3.5rem;
+            height: 3.5rem;
+          }
+        }
+      }
       .tv-text {
-        width: 30%;
+        width: 35%;
         position: relative;
         text-align: left;
         h1{
