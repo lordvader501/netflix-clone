@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { createAuthUser, createUserDocFromAuth } from '../utils/firebase';
 import BackgroundImage from '../components/BackgroundImage';
 import Header from '../components/Header';
 import styled from 'styled-components';
@@ -7,9 +10,20 @@ import tvVid from '../assets/video-tv-in-0819.m4v';
 import mobImg from '../assets/mobile-0819.jpg';
 import mobdownImg from '../assets/boxshot.png';
 import downGif from '../assets/download-icon.gif';
+import tv2Img from '../assets/device-pile-in.png';
+import tv2Vid from '../assets/video-devices-in.m4v';
+import childImg from '../assets/children.png';
 
-const Signup = () => {
+interface SignupProps {
+  email:string;
+  password:string;
+}
+
+const Signup: React.FC = () => {
   const [changeLogin, setChangeLogin] = useState(true);
+  const navigate = useNavigate();
+
+  const {register, handleSubmit, reset} = useForm<SignupProps>();
 
   const handleInputFocus = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.classList.add('focused');
@@ -17,6 +31,18 @@ const Signup = () => {
   const handleInputBlur = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === '') {
       e.target.classList.remove('focused');
+    }
+  };
+
+  const onSubmitSignUp: SubmitHandler<SignupProps> = async (data) => {
+    const {email, password} = data;
+    try {
+      const {user} = await createAuthUser(email, password);
+      await createUserDocFromAuth(user, {email});
+      reset();
+      navigate('/');
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -33,29 +59,43 @@ const Signup = () => {
           </div>
           <div className="form flex">
             <div className='field-container flex'>
-              <input type="email" name="email" onFocus={handleInputFocus} onBlur={handleInputBlur}/>
+              <input
+                type="email"
+                onFocus={handleInputFocus}
+                {...register('email', { 
+                  required: true, 
+                  pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/i, 
+                  onBlur: handleInputBlur 
+                })}
+              />
               <label htmlFor="email">Email address</label>
             </div>
             <div className='field-container'>
-              <input type="password" name="password" onFocus={handleInputFocus} onBlur={handleInputBlur}/>
+              <input
+                type="password"
+                onFocus={handleInputFocus}
+                {...register('password', {
+                  required: true,
+                  minLength: 8,
+                  maxLength: 15,
+                  onBlur: handleInputBlur
+                })}
+              />
               <label htmlFor="password">Password</label>
             </div>
-            {/* <div className='field-container flex a-center'>
-              <button className='button'>Get Started</button>
-            </div> */}
-            <Button>
+            <Button type='submit' onClick={handleSubmit(onSubmitSignUp)}>
               <p>Get Started</p>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-mirrorinrtl="true" className="default-ltr-cache-0 e1mhci4z1" data-name="ChevronRight" aria-hidden="true"><path fillRule="evenodd" clipRule="evenodd" d="M15.5859 12L8.29303 19.2928L9.70725 20.7071L17.7072 12.7071C17.8948 12.5195 18.0001 12.2652 18.0001 12C18.0001 11.7347 17.8948 11.4804 17.7072 11.2928L9.70724 3.29285L8.29303 4.70706L15.5859 12Z" fill="currentColor"></path></svg>
             </Button>
           </div>
         </div>
         <div className='flex row div-container j-center'>
-          <div className='flex j-center'>
+          <div className='flex j-center pt-60'>
             <div className='text tv-text j-center a-center flex column'>
               <h1>Enjoy on your TV</h1>
               <h4>Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray players and more.</h4>
             </div>
-            <div className='video-container'>
+            <div className='video-container flex a-center j-center'>
               <img src={tvImg} alt="tv" />
               <div className='video'>
                 <video src={tvVid} autoPlay playsInline loop muted></video>
@@ -64,7 +104,11 @@ const Signup = () => {
           </div>
         </div>
         <div className='flex row div-container j-center'>
-          <div className='flex j-center'>
+          <div className='flex j-center row-reverse'>
+            <div className='text tv-text j-center a-center flex column'>
+              <h1>Download your shows to watch offline</h1>
+              <h4>Save your favourites easily and always have something to watch.</h4>
+            </div>
             <div className='mobile-container flex j-center a-center'>
               <img src={mobImg} alt="mobile" />
               <div className='mobile-box flex row a-center'>
@@ -73,12 +117,40 @@ const Signup = () => {
                   <h4>Stranger Things</h4>
                   <p>Downloading...</p>
                 </div>
-                <div className="downloading-gif" style={{background: `url(${downGif})`, backgroundSize: 'contain', backgroundPosition: 'center'}}></div>
+                <div className="downloading-gif"></div>
               </div>
             </div>
+          </div>
+        </div>
+        <div className="flex row div-container j-center">
+          <div className="flex j-center pt-60">
             <div className='text tv-text j-center a-center flex column'>
-              <h1>Download your shows to watch offline</h1>
-              <h4>Save your favourites easily and always have something to watch.</h4>
+              <h1>Watch everywhere</h1>
+              <h4>Stream unlimited movies and TV shows on your phone, tablet, laptop, and TV.</h4>
+            </div>
+            <div className='video-container flex a-center j-center'>
+              <img src={tv2Img} alt="tv" />
+              <div className='video2'>
+                <video src={tv2Vid} autoPlay playsInline loop muted></video>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex row div-container j-center">
+          <div className="flex j-center row-reverse pt-60">
+            <div className='text tv-text j-center a-center flex column'>
+              <h1>Create profiles for kids</h1>
+              <h4>Send children on adventures with their favourite characters in a space made just for them—free with your membership.</h4>
+            </div>
+            <div className='video-container flex a-center j-center'>
+              <img src={childImg} alt="tv" />
+            </div>
+          </div>
+        </div>
+        <div className="flex row div-container j-center a-center">
+          <div className="flex j-center column pt-60">
+            <div className="text text-center tv-text flex j-center">
+              <h1>Frequently Asked Questions</h1>
             </div>
           </div>
         </div>
@@ -107,7 +179,7 @@ const Container = styled.div`
       .mobile-container {
         position: relative;
         img {
-          height: 65%;
+          height: 70%;
         }
         .mobile-box {
           position: absolute;
@@ -118,6 +190,7 @@ const Container = styled.div`
           background-color: black;
           padding: 0.5rem;
           justify-content: space-between;
+          width: 60%;
           img {
             width: 20%;
           }
@@ -128,7 +201,7 @@ const Container = styled.div`
             h4 {
               padding-left: 5px;
               font-weight: 400;
-              font-size: 1.2rem;
+              font-size: 1rem;
             }
             p {
               color: #0071eb;
@@ -137,13 +210,20 @@ const Container = styled.div`
             }
           }
           .downloading-gif {
-            width: 3.5rem;
-            height: 3.5rem;
+            width: 3rem;
+            height: 3rem;
+            background: url(${downGif});
+            background-size: contain;
+            background-position: center;
           }
         }
       }
+      .text-center{
+        text-align: center !important;
+        white-space: nowrap;
+      }
       .tv-text {
-        width: 35%;
+        width: 45%;
         position: relative;
         text-align: left;
         h1{
@@ -160,21 +240,33 @@ const Container = styled.div`
       }
       .video-container {
         position: relative;
+        width: 45%;
         img {
           position: relative;
           z-index: 1;
-          width: 100%;
+          width: 98%;
         }
         .video {
           position: absolute;
           z-index: 0;
           overflow: hidden;
-          width: 100%;
-          height: 100%;
-          max-width: 73%;
-          max-height: 54%;
+          width: 85%;
           top: 21%;
           left: 13%;
+          video {
+            width: inherit;
+          }
+        }
+        .video2 {
+          position: absolute;
+          z-index: 0;
+          overflow: hidden;
+          width: 78%;
+          top: 8%;
+          left: 19%;
+          video {
+            width: inherit;
+          }
         }
       }
     }
@@ -244,5 +336,6 @@ const Button = styled.button`
   position: relative;
   top: 0.25rem;
   margin-inline-start: 5px;
+  cursor: pointer;
 `;
 export default Signup;

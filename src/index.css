@@ -48,6 +48,17 @@ body::-webkit-scrollbar {
   justify-content: flex-end;
 }
 
+.row-reverse {
+  flex-direction: row-reverse;
+}
+
+.pt-20 {
+  padding-top: 20px;
+}
+.pt-60 {
+  padding-top: 60px;
+}
+
 .button {
   background-color: #c11119;
     outline: none;
