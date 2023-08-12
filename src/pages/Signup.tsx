@@ -20,8 +20,12 @@ interface SignupProps {
 }
 
 const Signup: React.FC = () => {
-  const [changeLogin, setChangeLogin] = useState(true);
   const navigate = useNavigate();
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  const handleItemClick = (id: string) => {
+    setActiveId((prevId) => (prevId === id ? null : id));
+  };
 
   const {register, handleSubmit, reset} = useForm<SignupProps>();
 
@@ -46,12 +50,37 @@ const Signup: React.FC = () => {
     }
   };
 
+  // useEffect(() => {
+  //   const faqItems = document.querySelectorAll('.faq-item');
+  //   const handleClick = (item:HTMLElement) => {
+  //     const target = item.getAttribute('itemid');
+  //     const faqContents = document.querySelectorAll('.faq-content') as NodeListOf<HTMLDivElement>;
+
+  //     faqContents.forEach((content) => {
+  //       if (content.id === target) {
+  //         content.style.display = content.style.display === 'block' ? 'none' : 'block';
+  //       } else {
+  //         content.style.display = 'none';
+  //       }
+  //     });
+  //   };
+
+  //   faqItems.forEach((item) => {
+  //     item.addEventListener('click', () => handleClick(item as HTMLElement));
+
+  //     return () => {
+  //       item.removeEventListener('click', () => handleClick(item as HTMLElement));
+  //     };
+  //   });
+
+  // },[]);
+
   return (
     <Container>
       <BackgroundImage />
       <div className="content">
-        <Header login={changeLogin} toggle={setChangeLogin}/>
-        <div className="body flex column a-center j-center">
+        <Header login={true}/>
+        <div className="body flex column a-center j-center w-inherit">
           <div className="text flex column" >
             <h1>Unlimited movies, TV shows and more</h1>
             <h4>Watch anywhere. Cancel anytime.</h4>
@@ -90,7 +119,7 @@ const Signup: React.FC = () => {
           </div>
         </div>
         <div className='flex row div-container j-center'>
-          <div className='flex j-center pt-60'>
+          <div className='flex inner-div j-center pt-60'>
             <div className='text tv-text j-center a-center flex column'>
               <h1>Enjoy on your TV</h1>
               <h4>Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray players and more.</h4>
@@ -104,12 +133,12 @@ const Signup: React.FC = () => {
           </div>
         </div>
         <div className='flex row div-container j-center'>
-          <div className='flex j-center row-reverse'>
+          <div className='flex j-center row-reverse pt-60 inner-div'>
             <div className='text tv-text j-center a-center flex column'>
               <h1>Download your shows to watch offline</h1>
               <h4>Save your favourites easily and always have something to watch.</h4>
             </div>
-            <div className='mobile-container flex j-center a-center'>
+            <div className='mobile-container flex j-center'>
               <img src={mobImg} alt="mobile" />
               <div className='mobile-box flex row a-center'>
                 <img src={mobdownImg} alt="boximg" />
@@ -123,7 +152,7 @@ const Signup: React.FC = () => {
           </div>
         </div>
         <div className="flex row div-container j-center">
-          <div className="flex j-center pt-60">
+          <div className="flex inner-div j-center pt-60">
             <div className='text tv-text j-center a-center flex column'>
               <h1>Watch everywhere</h1>
               <h4>Stream unlimited movies and TV shows on your phone, tablet, laptop, and TV.</h4>
@@ -137,7 +166,7 @@ const Signup: React.FC = () => {
           </div>
         </div>
         <div className="flex row div-container j-center">
-          <div className="flex j-center row-reverse pt-60">
+          <div className="flex j-center row-reverse pt-60 inner-div">
             <div className='text tv-text j-center a-center flex column'>
               <h1>Create profiles for kids</h1>
               <h4>Send children on adventures with their favourite characters in a space made just for them—free with your membership.</h4>
@@ -147,13 +176,86 @@ const Signup: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="flex row div-container j-center a-center">
-          <div className="flex j-center column pt-60">
-            <div className="text text-center tv-text flex j-center">
-              <h1>Frequently Asked Questions</h1>
+        <Faq className="flex row div-container j-center a-center w-100">
+          <div className="flex a-center j-center column w-100 pt-60">
+            <h1 className='faq-heading'>Frequently Asked Questions</h1>
+            <div className='flex a-center j-center pt-20 w-100'>
+              <ul>
+                <li>
+                  <h3 className='faq-item' itemID='faq-1' onClick={() => handleItemClick('faq-1')}>
+                    <span>What is Netflix?</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={`${activeId === 'faq-1' ? 'rotate': ''}`} data-name="Plus"><path fillRule="evenodd" clipRule="evenodd" d="M11 11V2H13V11H22V13H13V22H11V13H2V11H11Z" fill="currentColor"></path></svg>
+                  </h3>
+                  <div className={`${activeId === 'faq-1' ? 'show-faq' : 'faq-content'}`} id='faq-1'>
+                    <span>
+                      Netflix is a streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries and more – on thousands of internet-connected devices.
+                      <br/><br/>
+                      You can watch as much as you want, whenever you want, without a single ad – all for one low monthly price. There&apos;s always something new to discover, and new TV shows and movies are added every week!
+                    </span>
+                  </div>
+                </li>
+                <li>
+                  <h3 className='faq-item' itemID='faq-2' onClick={() => handleItemClick('faq-2')}>
+                    <span>How much does Netflix cost?</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={`${activeId === 'faq-2' ? 'rotate': ''}`} data-name="Plus"><path fillRule="evenodd" clipRule="evenodd" d="M11 11V2H13V11H22V13H13V22H11V13H2V11H11Z" fill="currentColor"></path></svg>
+                  </h3>
+                  <div className={`${activeId === 'faq-2' ? 'show-faq' : 'faq-content'}`} id='faq-2'>
+                    <span>
+                      Watch Netflix on your smartphone, tablet, Smart TV, laptop, or streaming device, all for one fixed monthly fee. Plans range from ₹ 649 to ₹ 149 a month. No extra costs, no contracts.
+                    </span>
+                  </div>
+                </li>
+                <li>
+                  <h3 className='faq-item' itemID='faq-3' onClick={() => handleItemClick('faq-3')}>
+                    <span>Where can I watch?</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={`${activeId === 'faq-3' ? 'rotate': ''}`} data-name="Plus"><path fillRule="evenodd" clipRule="evenodd" d="M11 11V2H13V11H22V13H13V22H11V13H2V11H11Z" fill="currentColor"></path></svg>
+                  </h3>
+                  <div className={`${activeId === 'faq-3' ? 'show-faq' : 'faq-content'}`} id='faq-3'>
+                    <span>
+                      Watch anywhere, anytime. Sign in with your Netflix account to watch instantly on the web at netflix.com from your personal computer or on any internet-connected device that offers the Netflix app, including smart TVs, smartphones, tablets, streaming media players and game consoles.
+                      <br /><br />
+                      You can also download your favourite shows with the iOS, Android, or Windows 10 app. Use downloads to watch while you&apos;re on the go and without an internet connection. Take Netflix with you anywhere.
+                    </span>
+                  </div>
+                </li>
+                <li>
+                  <h3 className='faq-item' itemID='faq-4' onClick={() => handleItemClick('faq-4')}>
+                    <span>How do I cancel?</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={`${activeId === 'faq-4' ? 'rotate': ''}`} data-name="Plus"><path fillRule="evenodd" clipRule="evenodd" d="M11 11V2H13V11H22V13H13V22H11V13H2V11H11Z" fill="currentColor"></path></svg>
+                  </h3>
+                  <div className={`${activeId === 'faq-4' ? 'show-faq' : 'faq-content'}`} id='faq-4'>
+                    <span>
+                      Netflix is flexible. There are no annoying contracts and no commitments. You can easily cancel your account online in two clicks. There are no cancellation fees – start or stop your account anytime.
+                    </span>
+                  </div>
+                </li>
+                <li>
+                  <h3 className='faq-item' itemID='faq-5' onClick={() => handleItemClick('faq-5')}>
+                    <span>What can I watch on Netflix?</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={`${activeId === 'faq-5' ? 'rotate': ''}`} data-name="Plus"><path fillRule="evenodd" clipRule="evenodd" d="M11 11V2H13V11H22V13H13V22H11V13H2V11H11Z" fill="currentColor"></path></svg>
+                  </h3>
+                  <div className={`${activeId === 'faq-5' ? 'show-faq' : 'faq-content'}`} id='faq-5'>
+                    <span>
+                      Netflix has an extensive library of feature films, documentaries, TV shows, anime, award-winning Netflix originals, and more. Watch as much as you want, anytime you want.
+                    </span>
+                  </div>
+                </li>
+                <li>
+                  <h3 className='faq-item' itemID='faq-6' onClick={() => handleItemClick('faq-6')}>
+                    <span>Is Netflix good for kids?</span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={`${activeId === 'faq-6' ? 'rotate': ''}`} data-name="Plus"><path fillRule="evenodd" clipRule="evenodd" d="M11 11V2H13V11H22V13H13V22H11V13H2V11H11Z" fill="currentColor"></path></svg>
+                  </h3>
+                  <div className={`${activeId === 'faq-6' ? 'show-faq' : 'faq-content'}`} id='faq-6'>
+                    <span>
+                      The Netflix Kids experience is included in your membership to give parents control while kids enjoy family-friendly TV shows and films in their own space. <br /><br />
+                      Kids profiles come with PIN-protected parental controls that let you restrict the maturity rating of content kids can watch and block specific titles you don&apos;t want kids to see.
+                    </span>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
-        </div>
+        </Faq>
       </div>
     </Container>
   );
@@ -179,11 +281,12 @@ const Container = styled.div`
       .mobile-container {
         position: relative;
         img {
-          height: 70%;
+          position: relative;
+          height: 67%;
         }
         .mobile-box {
           position: absolute;
-          top: 60%;
+          top: 45%;
           border-radius: 0.8rem;
           border: 0.1rem solid #494949;
           z-index: 1;
@@ -223,7 +326,7 @@ const Container = styled.div`
         white-space: nowrap;
       }
       .tv-text {
-        width: 45%;
+        width: 40%;
         position: relative;
         text-align: left;
         h1{
@@ -320,6 +423,60 @@ const Container = styled.div`
       }
     }
   }
+  @media screen and (max-width: 850px){
+    .content {
+      .div-container {
+          .inner-div {
+            flex-direction: column;
+            align-items: center;
+            width: inherit;
+            .text {
+              width: 80%;
+              text-align: center;
+              h1 {
+                font-size: 1.7rem;
+                margin-bottom: 1rem;
+                width: inherit;
+              }
+              h4 {
+                font-size: 0.8rem;
+              }
+            }
+            .video-container {
+              width: 80%;
+            }
+          }
+        }
+      .body {
+        height: 75vw;
+        @media screen and (max-width: 550px){
+          height: 100vw;
+        }
+        @media screen and (max-width: 450px){
+          height: 120vw;
+        }
+        @media screen and (max-width: 350px){
+          height: 140vw;
+        }
+        .text {
+          gap: 1.2rem;
+          font-size: larger;
+          padding: 0 1rem;
+          width: 80%;
+        }
+        .form {
+          flex-direction: column;
+          width: fit-content;
+          min-width: 50%;
+          .field-container {
+            input {
+              min-width: 98%;
+            }
+          }
+        }
+      }
+    }
+  }
 `;
 const Button = styled.button`
   display: flex;
@@ -337,5 +494,67 @@ const Button = styled.button`
   top: 0.25rem;
   margin-inline-start: 5px;
   cursor: pointer;
+  @media screen and (max-width: 850px){
+    padding: 15px 50px;
+  }
+`;
+const Faq = styled.div`
+  .faq-heading {
+    font-size: 3rem;
+    padding-inline: 2rem;
+    text-align: center;
+    @media screen and (max-width:420px){
+      font-size: 2.7rem;
+    }
+  }
+  ul {
+    width: 80%;
+    li {
+      border: 1px solid black;
+      background-color: #292929;
+      list-style: none;
+      margin-block: 0.5rem;
+      width: 100%;
+      .faq-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem;
+        font-size: 1.4rem;
+        font-weight: 400;
+        margin: 0;
+        border-bottom: 1.5px solid black;
+        cursor: pointer;
+        transition-duration: 250ms;
+        transition-property: background-color;
+        transition-timing-function: cubic-bezier(0.9, 0, 0.51, 1);
+        .rotate {
+          transform: rotate(-45deg);
+          transition: transform 0.25s ease-in-out;
+        }
+      }
+      .faq-item:hover{
+        background-color: #4e4e4e;
+      }
+      .show-faq {
+        overflow: hidden;
+        visibility: visible;
+        padding: 0 1.5rem;
+        font-size: 1.2rem;
+        font-weight: 300;
+        transition: all 0.25s cubic-bezier(0.5, 0, 0.1, 1);
+        max-height: 75rem;
+        padding-bottom: 1.5rem;
+        padding-top: 1.5rem;
+      }
+      .faq-content {
+        overflow: hidden;
+        max-height: 0;
+        padding: 0 1.5rem;
+        visibility: collapse;
+        transition: all 0.25s cubic-bezier(0.5, 0, 0.1, 1);
+      }
+    }
+  }
 `;
 export default Signup;

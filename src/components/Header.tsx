@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 interface HeaderPropsType {
   login: boolean;
-  toggle: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const Header: React.FC<HeaderPropsType> = (props) => {
@@ -36,6 +35,10 @@ const Container = styled.div`
       font-weight: bolder;
       font-size: 1.05rem;
     }
+  }
+  @media screen and (max-width: 850px){
+    padding: 0 1rem 0 0;
+    width: inherit;
   }
 `;
 

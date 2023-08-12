@@ -36,12 +36,24 @@ body::-webkit-scrollbar {
   justify-content: space-between;
 }
 
+.j-around {
+  justify-content: space-around;
+}
+
+.j-start {
+  justify-content: start;
+}
+
 .j-center {
   justify-content: center;
 }
 
 .a-center {
   align-items: center;
+}
+
+.j-evenly {
+  justify-content: space-evenly;
 }
 
 .j-end {
@@ -58,6 +70,17 @@ body::-webkit-scrollbar {
 .pt-60 {
   padding-top: 60px;
 }
+.w-100 {
+  width: 100%;
+}
+
+.w-80 {
+  width: 80%;
+}
+
+.w-inherit {
+  width: inherit;
+}
 
 .button {
   background-color: #c11119;
@@ -66,4 +89,5 @@ body::-webkit-scrollbar {
     padding: 10px 20px;
     border: 0;
     color: white;
+    cursor: pointer;
 }
