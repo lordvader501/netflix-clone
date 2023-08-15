@@ -24,7 +24,7 @@
         ],
         "linebreak-style": [
             "error",
-            "CRLF"
+            "LF"
         ],
         "quotes": [
             "error",
