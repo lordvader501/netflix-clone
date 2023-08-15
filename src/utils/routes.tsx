@@ -1,22 +1,30 @@
-import React from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import React, { useEffect,useContext } from 'react';
+import { createBrowserRouter, useNavigate } from 'react-router-dom';
 import NetflixLayout from '../pages/NetflixLayout';
 import Signup from '../pages/Signup';
 import Login from '../pages/Login';
+import { UserContext } from '../context/User.context';
 
 const routes = createBrowserRouter([
   {
     path: '/',
-    element: <NetflixLayout />
+    Component: () => {
+      const { currUser } = useContext(UserContext);
+      return currUser ? <NetflixLayout /> : <Signup />;
+    }
   },
   {
     path: '/login',
-    element: <Login />
+    Component: () => {
+      const { currUser } = useContext(UserContext);
+      const navigate = useNavigate();
+      useEffect(() => {
+        if (!currUser) navigate('/login');
+        else navigate('/');
+      },[currUser]);
+      return <Login />;
+    }
   },
-  {
-    path: '/signup',
-    element: <Signup />
-  }
 ]);
 
 export default routes;

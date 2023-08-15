@@ -1,20 +1,22 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import logo from '../assets/logo.png';
+import { signOutUser } from '../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 
-interface HeaderPropsType {
-  login: boolean;
-}
-
-const Header: React.FC<HeaderPropsType> = (props) => {
+const Navbar:React.FC = () => {
   const navigate = useNavigate();
+  const signOutHandler =async () => {
+    await signOutUser();
+    navigate('/login');
+  };
   return (
     <Container className='flex a-center j-between'>
       <div className="logo">
         <img src={logo} alt="logo" />
       </div>
-      <button className='button' onClick={() => navigate(props.login ? '/login' : '/')}>{props.login ? 'Sign In' : 'Sign Up'}</button>
+      <Link to='/login' onClick={signOutHandler}><button className='button' >Sign Out</button></Link>
     </Container>
   );
 };
@@ -42,4 +44,4 @@ const Container = styled.div`
   }
 `;
 
-export default Header;
+export default Navbar;
